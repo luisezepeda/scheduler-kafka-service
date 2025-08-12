@@ -1,2 +1,6 @@
-target
 .idea
+target
+*.iml
+/.idea
+/.idea/compiler.xml
+/.idea/misc.xml

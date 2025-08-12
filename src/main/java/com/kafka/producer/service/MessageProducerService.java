@@ -2,6 +2,7 @@ package com.kafka.producer.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kafka.producer.model.ClientQueryResult;
 import com.kafka.producer.model.KafkaMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,18 @@ public class MessageProducerService {
      * @param message objeto a publicar
      */
     public void send(KafkaMessage message) {
+        try {
+            String payload = objectMapper.writeValueAsString(message);
+            log.debug("Enviando mensaje al topic {}: {}", topic, payload);
+            kafkaTemplate.send(topic, payload);
+            log.info("Mensaje enviado al topic {}", topic);
+        } catch (JsonProcessingException e) {
+            log.error("Error serializando el mensaje: {}", e.getMessage(), e);
+            throw new IllegalArgumentException("Mensaje inválido", e);
+        }
+    }
+
+    public void send(ClientQueryResult message) {
         try {
             String payload = objectMapper.writeValueAsString(message);
             log.debug("Enviando mensaje al topic {}: {}", topic, payload);
