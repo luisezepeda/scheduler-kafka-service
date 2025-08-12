@@ -1,0 +1,25 @@
+# Configuración de logging para debugging
+logging:
+  level:
+    root: INFO
+    com.kafka.producer: DEBUG
+    org.springframework.kafka: INFO
+    org.apache.kafka: WARN
+    org.springframework.retry: INFO
+
+# Configuración personalizada de Kafka (Producer)
+kafka:
+  server: localhost:9092  # Opción A (WSL2 estable)
+  producer:
+    topic: visit-request-topic
+    acks: all
+    retries: 3
+
+# Actuator
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    diskspace:
+      enabled: false
